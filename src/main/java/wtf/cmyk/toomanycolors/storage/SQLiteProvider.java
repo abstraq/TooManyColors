@@ -5,6 +5,7 @@ import wtf.cmyk.toomanycolors.TMC;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.HashMap;
 
 public class SQLiteProvider extends StorageProvider {
     private Connection connection;
@@ -94,7 +95,7 @@ public class SQLiteProvider extends StorageProvider {
             ps.close();
         } catch (SQLException e) {
             if (plugin != null) {
-                plugin.getLogger().warning("Error setting color replacement for " + uuid);
+                plugin.getLogger().warning("Error creating placeholder for " + uuid);
             } else {
                 e.printStackTrace();
             }
@@ -113,7 +114,7 @@ public class SQLiteProvider extends StorageProvider {
             ps.close();
         } catch (SQLException e) {
             if (plugin != null) {
-                plugin.getLogger().warning("Error setting color replacement for " + uuid);
+                plugin.getLogger().warning("Error updating placeholder for " + uuid);
             } else {
                 e.printStackTrace();
             }
@@ -140,7 +141,7 @@ public class SQLiteProvider extends StorageProvider {
             ps.close();
         } catch (SQLException e) {
             if (plugin != null) {
-                plugin.getLogger().warning("Error setting color replacement for " + uuid);
+                plugin.getLogger().warning("Error deleting placeholder for " + uuid);
             } else {
                 e.printStackTrace();
             }
@@ -160,12 +161,34 @@ public class SQLiteProvider extends StorageProvider {
             ps.close();
         } catch (SQLException e) {
             if(plugin != null) {
-                plugin.getLogger().warning("Error getting color replacement for " + uuid);
+                plugin.getLogger().warning("Error getting total placeholders for " + uuid);
             } else {
                 e.printStackTrace();
             }
         }
         return 0;
+    }
+
+    @Override
+    public HashMap<String, String> getAllPlaceholders(String uuid) {
+        HashMap<String,String> retVal = new HashMap<>();
+        String query = "SELECT * FROM tmc_data WHERE player=?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, uuid);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                retVal.put(rs.getString("placeholder"), rs.getString("hex_code"));
+            }
+            ps.close();
+        } catch (SQLException e) {
+            if(plugin != null) {
+                plugin.getLogger().warning("Error getting color replacement for " + uuid);
+            } else {
+                e.printStackTrace();
+            }
+        }
+        return retVal;
     }
 
     @Override
