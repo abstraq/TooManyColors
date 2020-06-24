@@ -13,5 +13,7 @@ public abstract class StorageProvider {
 
     public abstract String getHexColor(String uuid, String placeholder);
 
+    public abstract Integer getTotalPlaceholders(String uuid);
+
     public abstract void close();
 }

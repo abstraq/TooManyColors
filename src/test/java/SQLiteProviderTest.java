@@ -15,6 +15,12 @@ public class SQLiteProviderTest {
         assertEquals("FA44FF", provider.getHexColor("TEST_UUID", "$5"));
         assertEquals(false, provider.hasPlaceholder("TEST_UUID", "$69"));
         assertEquals(true, provider.hasPlaceholder("TEST_UUID", "$5"));
+        provider.setPlaceholder("TEST_UUID", "$2", "FF44FF");
+        provider.setPlaceholder("TEST_UUID", "$4", "FF44FF");
+        provider.setPlaceholder("TEST_UUID", "$9", "FF44FF");
+        assertEquals(4, provider.getTotalPlaceholders("TEST_UUID"));
+        provider.delPlaceholder("TEST_UUID", "$4");
+        assertEquals(3, provider.getTotalPlaceholders("TEST_UUID"));
         provider.close();
     }
 }
