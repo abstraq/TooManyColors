@@ -66,7 +66,7 @@ public class SQLiteProvider extends StorageProvider {
     private void initializeTable() {
         String query = "CREATE TABLE IF NOT EXISTS tmc_data (" +
                 "player varchar(32) NOT NULL, " +
-                "placeholder varchar(7) NOT NULL," +
+                "placeholder varchar NOT NULL," +
                 "hex_code varchar(6) NOT NULL)";
         try {
             Statement s = getConnection().createStatement();
@@ -82,9 +82,8 @@ public class SQLiteProvider extends StorageProvider {
             }
         }
     }
-    
-    @Override
-    public void setPlaceholder(String uuid, String placeholder, String hexColor) {
+
+    public void createPlaceholder(String uuid, String placeholder, String hexColor) {
         String query = "INSERT INTO tmc_data (player, placeholder, hex_code) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = getConnection().prepareStatement(query);
@@ -100,6 +99,73 @@ public class SQLiteProvider extends StorageProvider {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void updatePlaceholder(String uuid, String placeholder, String hexColor) {
+        String query = "UPDATE tmc_data SET hex_code = ? WHERE player = ? AND placeholder = ?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, hexColor);
+            ps.setString(2, uuid);
+            ps.setString(3, placeholder);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            if (plugin != null) {
+                plugin.getLogger().warning("Error setting color replacement for " + uuid);
+            } else {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void setPlaceholder(String uuid, String placeholder, String hexColor) {
+        if(hasPlaceholder(uuid, placeholder)) {
+            updatePlaceholder(uuid, placeholder, hexColor);
+        } else {
+            createPlaceholder(uuid, placeholder, hexColor);
+        }
+    }
+
+    @Override
+    public void delPlaceholder(String uuid, String placeholder) {
+        String query = "DELETE from tmc_data WHERE player=? AND placeholder=? AND hex_code=?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, uuid);
+            ps.setString(2, placeholder);
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            if (plugin != null) {
+                plugin.getLogger().warning("Error setting color replacement for " + uuid);
+            } else {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public Boolean hasPlaceholder(String uuid, String placeholder) {
+        String query = "SELECT COUNT(1) FROM tmc_data WHERE player=? AND placeholder=?";
+        try {
+            PreparedStatement ps = getConnection().prepareStatement(query);
+            ps.setString(1, uuid);
+            ps.setString(2, placeholder);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                return rs.getInt(1) == 1;
+            }
+            ps.close();
+        } catch (SQLException e) {
+            if(plugin != null) {
+                plugin.getLogger().warning("Error getting color replacement for " + uuid);
+            } else {
+                e.printStackTrace();
+            }
+        }
+        return false;
     }
 
     @Override
@@ -127,7 +193,7 @@ public class SQLiteProvider extends StorageProvider {
     @Override
     public void close() {
         try {
-            getConnection().close();
+            if(connection != null) getConnection().close();
         } catch (SQLException e) {
             if(plugin != null) {
                 plugin.getLogger().severe("Error closing connection to database file.");

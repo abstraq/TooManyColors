@@ -5,7 +5,11 @@ import org.bukkit.entity.Player;
 public abstract class StorageProvider {
     public abstract void init();
 
+    public abstract Boolean hasPlaceholder(String uuid, String placeholder);
+
     public abstract void setPlaceholder(String uuid, String placeholder, String hexColor);
+
+    public abstract void delPlaceholder(String uuid, String placeholder);
 
     public abstract String getHexColor(String uuid, String placeholder);
 
