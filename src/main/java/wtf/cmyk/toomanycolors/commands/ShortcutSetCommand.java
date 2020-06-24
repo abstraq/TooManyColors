@@ -21,7 +21,7 @@ public class ShortcutSetCommand implements CommandInterface {
                 player.sendMessage(MessageUtils.formatWithPrefix("This color is blacklisted by administration."));
                 return true;
             }
-            if(args[1].matches("&([a-fA-F]|[0-9])")) {
+            if(args[1].matches("&([a-fA-F]|[0-9]|[k-oK-O]|r|R)")) {
                 player.sendMessage(MessageUtils.formatWithPrefix("This placeholder is reserved."));
                 return true;
             }
