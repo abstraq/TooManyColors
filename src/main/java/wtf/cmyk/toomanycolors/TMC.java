@@ -1,9 +1,15 @@
 package wtf.cmyk.toomanycolors;
 
+import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bukkit.plugin.java.JavaPlugin;
 import wtf.cmyk.toomanycolors.commands.*;
 import wtf.cmyk.toomanycolors.storage.SQLiteProvider;
 import wtf.cmyk.toomanycolors.storage.StorageProvider;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public final class TMC extends JavaPlugin {
     private static TMC instance;
@@ -14,6 +20,14 @@ public final class TMC extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
+        File configFile = new File(getDataFolder(), "config.yml");
+        try {
+            ConfigUpdater.update(this, "config.yml", configFile, new ArrayList<>());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        reloadConfig();
         provider = new SQLiteProvider();
         commandHandler = new CommandHandler();
         provider.init();
