@@ -1,0 +1,4 @@
+defaultShortcutLimit: 5 # The amount of shortcuts a player is allowed to create with base permissions. Set to -1 to disable.
+blacklistedColors: # Players will not be able to create shortcuts for these colors.
+  - '#FF4400'
+  - '#069420'
