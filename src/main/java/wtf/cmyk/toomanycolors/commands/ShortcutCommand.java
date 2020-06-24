@@ -1,7 +1,6 @@
 package wtf.cmyk.toomanycolors.commands;
 
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import wtf.cmyk.toomanycolors.utils.MessageUtils;
 
