@@ -1,0 +1,8 @@
+name: TooManyColors
+version: ${project.version}
+main: wtf.cmyk.toomanycolors.TMC
+api-version: 1.15.2
+prefix: TMC
+authors: [cmyk__]
+description: Bind hex colors to placeholders so you can format your chat messages.
+website: https://www.cmyk.wtf
