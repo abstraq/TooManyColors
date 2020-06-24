@@ -9,7 +9,6 @@ import wtf.cmyk.toomanycolors.storage.StorageProvider;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public final class TMC extends JavaPlugin {
     private static TMC instance;
@@ -36,6 +35,7 @@ public final class TMC extends JavaPlugin {
         commandHandler.register("set", new ShortcutSetCommand());
         commandHandler.register("del", new ShortcutDelCommand());
         commandHandler.register("list", new ShortcutListCommand());
+        getCommand("shortcut").setTabCompleter(commandHandler);
         getCommand("shortcut").setExecutor(commandHandler);
         getLogger().info("Successfully enabled TooManyColors!");
     }
