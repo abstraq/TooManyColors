@@ -8,3 +8,10 @@ description: 'Bind hex colors to placeholders so you can format your chat messag
 website: 'https://www.cmyk.wtf'
 commands:
   shortcut:
+    permissions:
+      tmc.command.shortcut.set:
+        description: Create shortcuts
+        children:
+          tmc.command.shortcut.set.unlimited: true
+      tmc.command.shortcut.del:
+        description: Delete shortcuts
