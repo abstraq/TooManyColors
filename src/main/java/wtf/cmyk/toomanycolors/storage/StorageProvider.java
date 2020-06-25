@@ -1,10 +1,16 @@
 package wtf.cmyk.toomanycolors.storage;
 
 import org.bukkit.entity.Player;
+import wtf.cmyk.toomanycolors.TMC;
 
 import java.util.HashMap;
 
 public abstract class StorageProvider {
+
+    public StorageProvider(TMC instance) { }
+
+    public abstract boolean isAccessible();
+
     public abstract void init();
 
     public abstract Boolean hasPlaceholder(String uuid, String placeholder);
