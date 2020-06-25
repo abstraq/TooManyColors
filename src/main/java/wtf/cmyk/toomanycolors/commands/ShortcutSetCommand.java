@@ -1,5 +1,6 @@
 package wtf.cmyk.toomanycolors.commands;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -62,7 +63,7 @@ public class ShortcutSetCommand implements CommandInterface {
                 }
             }
             handler.provider.setPlaceholder(player.getUniqueId().toString(), args[1], matcher.group());
-            player.sendMessage(MessageUtils.format("Created placeholder mapping &e" + args[1] + "&7 to &e" + args[2]));
+            player.sendMessage(MessageUtils.format("Created placeholder mapping &e" + args[1] + "&7 to " + ChatColor.of(args[2]) + args[2]));
 
         } else {
             player.sendMessage(MessageUtils.formatWithPrefix("You do not have permission to run this command!"));
