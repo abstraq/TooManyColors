@@ -50,8 +50,7 @@ public final class TMC extends JavaPlugin {
         getLogger().info("Successfully disabled TooManyColors!");
     }
 
-    public HashMap<String, String> fetchPlaceholders(Player p) {
-        String uuid = p.getUniqueId().toString();
+    public HashMap<String, String> fetchPlaceholders(String uuid) {
         if(provider.isAccessible()) {
             return provider.getAllPlaceholders(uuid);
         }
