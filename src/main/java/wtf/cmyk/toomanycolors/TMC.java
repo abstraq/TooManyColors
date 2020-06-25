@@ -1,10 +1,9 @@
 package wtf.cmyk.toomanycolors;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import wtf.cmyk.toomanycolors.commands.*;
-import wtf.cmyk.toomanycolors.listeners.ChatListener;
+import wtf.cmyk.toomanycolors.listeners.ReplacementListener;
 import wtf.cmyk.toomanycolors.storage.SQLiteProvider;
 import wtf.cmyk.toomanycolors.storage.StorageProvider;
 
@@ -14,12 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public final class TMC extends JavaPlugin {
-    private static TMC instance;
     private StorageProvider provider;
 
     @Override
     public void onEnable() {
-        instance = this;
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");
         try {
@@ -39,13 +36,12 @@ public final class TMC extends JavaPlugin {
         commandHandler.register("list", new ShortcutListCommand());
         getCommand("shortcut").setTabCompleter(commandHandler);
         getCommand("shortcut").setExecutor(commandHandler);
-        getServer().getPluginManager().registerEvents(new ChatListener(provider), this);
+        getServer().getPluginManager().registerEvents(new ReplacementListener(provider), this);
         getLogger().info("Successfully enabled TooManyColors!");
     }
 
     @Override
     public void onDisable() {
-        instance = null;
         provider.close();
         getLogger().info("Successfully disabled TooManyColors!");
     }
