@@ -1,6 +1,7 @@
 package wtf.cmyk.toomanycolors;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import wtf.cmyk.toomanycolors.commands.*;
 import wtf.cmyk.toomanycolors.listeners.ChatListener;
@@ -10,11 +11,11 @@ import wtf.cmyk.toomanycolors.storage.StorageProvider;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public final class TMC extends JavaPlugin {
     private static TMC instance;
     private StorageProvider provider;
-    private CommandHandler commandHandler;
 
     @Override
     public void onEnable() {
@@ -28,8 +29,8 @@ public final class TMC extends JavaPlugin {
         }
 
         reloadConfig();
-        provider = new SQLiteProvider();
-        commandHandler = new CommandHandler();
+        provider = new SQLiteProvider(this);
+        CommandHandler commandHandler = new CommandHandler(this, provider);
         provider.init();
 
         commandHandler.register("help", new ShortcutCommand());
@@ -38,7 +39,7 @@ public final class TMC extends JavaPlugin {
         commandHandler.register("list", new ShortcutListCommand());
         getCommand("shortcut").setTabCompleter(commandHandler);
         getCommand("shortcut").setExecutor(commandHandler);
-        getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(provider), this);
         getLogger().info("Successfully enabled TooManyColors!");
     }
 
@@ -49,15 +50,11 @@ public final class TMC extends JavaPlugin {
         getLogger().info("Successfully disabled TooManyColors!");
     }
 
-    public static TMC getInstance() {
-        return instance;
-    }
-
-    public StorageProvider getProvider() {
-        return provider;
-    }
-
-    public CommandHandler getCommandHandler() {
-        return commandHandler;
+    public HashMap<String, String> fetchPlaceholders(Player p) {
+        String uuid = p.getUniqueId().toString();
+        if(provider.isAccessible()) {
+            return provider.getAllPlaceholders(uuid);
+        }
+        return new HashMap<>();
     }
 }

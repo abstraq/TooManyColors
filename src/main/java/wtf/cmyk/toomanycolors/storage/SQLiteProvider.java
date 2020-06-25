@@ -9,11 +9,23 @@ import java.util.HashMap;
 
 public class SQLiteProvider extends StorageProvider {
     private Connection connection;
-    private TMC plugin;
+    private final TMC plugin;
+
+    public SQLiteProvider(TMC instance) {
+        super(instance);
+        this.plugin = instance;
+    }
+
+    @Override
+    public boolean isAccessible() {
+        try {
+            return connection != null && !connection.isClosed();
+        } catch (SQLException ignored) { }
+        return false;
+    }
 
     @Override
     public void init() {
-        plugin = TMC.getInstance();
         connection = getConnection();
         initializeTable();
     }
