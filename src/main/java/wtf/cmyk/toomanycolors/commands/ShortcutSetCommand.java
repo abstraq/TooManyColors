@@ -63,9 +63,8 @@ public class ShortcutSetCommand implements CommandInterface {
                 }
             }
             String hex = MessageUtils.convertHex(matcher.group());
-            String hexPretty = String.format("#%s", hex);
-            handler.provider.setPlaceholder(player.getUniqueId().toString(), args[1], hexPretty);
-            player.sendMessage(MessageUtils.format("Created placeholder mapping &e" + args[1] + "&7 to " + ChatColor.of(hexPretty) + hexPretty));
+            handler.provider.setPlaceholder(player.getUniqueId().toString(), args[1], hex);
+            player.sendMessage(MessageUtils.format("Created placeholder mapping &e" + args[1] + "&7 to " + ChatColor.of(hex) + hex));
 
         } else {
             player.sendMessage(MessageUtils.formatWithPrefix("You do not have permission to run this command!"));

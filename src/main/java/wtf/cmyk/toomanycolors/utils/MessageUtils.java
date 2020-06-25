@@ -29,8 +29,8 @@ public class MessageUtils {
         return ChatColor.translateAlternateColorCodes('&', "&dTMC&8 > &7" + message);
     }
     public static String convertHex(String hex) {
-        if(hex.length() == 6) return hex;
-        StringBuilder full = new StringBuilder();
+        if(hex.length() == 7) return hex;
+        StringBuilder full = new StringBuilder("#");
         for (int i = 1; i < hex.length(); i++)
         {
             full.append(hex, i, i + 1).append(hex, i, i + 1);
