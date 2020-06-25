@@ -10,8 +10,8 @@ import java.util.HashMap;
 public class ShortcutListCommand implements CommandInterface {
 
     @Override
-    public boolean onCommand(Player player, Command cmd, String commandLabel, String[] args) {
-        HashMap<String, String> placeholderMap = TMC.getInstance().getProvider().getAllPlaceholders(player.getUniqueId().toString());
+    public boolean onCommand(CommandHandler handler,Player player, Command cmd, String commandLabel, String[] args) {
+        HashMap<String, String> placeholderMap = handler.provider.getAllPlaceholders(player.getUniqueId().toString());
         if(placeholderMap.isEmpty()) {
             player.sendMessage(MessageUtils.formatWithPrefix("No placeholders :o"));
             return true;
