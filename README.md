@@ -12,6 +12,36 @@ hex color codes as placeholders in chat.
 - **tmc.command.shortcut.del** - Grants permission to use the del subcommand.
 - **tmc.command.shortcut.set.\[1-Infinity\*]** - Sets the amount of shortcuts the player can create.
 - **tmc.command.shortcut.set.unlimited** - Bypass the defaultShortcutLimit.
+## API
+You can now use TooManyColors in your own plugins through JitPack!
+
+Add the following dependency to your pom.xml:
+```maven
+</repositories>
+    <repository>
+        <id>jitpack.io</id>
+        <url>https://jitpack.io</url>
+    </repository>
+</repositories>
+<dependencies>
+    <dependency>
+        <groupId>com.github.jaywalkn</groupId>
+        <artifactId>TooManyColors</artifactId>
+        <version>1.0.1</version>
+    </dependency>
+</dependencies>
+```
+
+Then in your onEnable function add:
+```java
+TMC tmc = (TMC) Bukkit.getPluginManager().getPlugin("TooManyColors");
+```
+
+You can then use the function:
+```java
+tmc.fetchPlaceholders("player uuid as string") // Returns HashMap<String placeholder, String hexCode>
+```
+
 ## Help
 If you don't understand something, you are experiencing problems, or you just want to say hi, feel free to join my [Discord Server](https://discord.gg/hzsTeMz).
 Its kinda lonely with just me and my bots ;-;

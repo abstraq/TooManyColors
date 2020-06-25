@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import wtf.cmyk.toomanycolors.TMC;
+import wtf.cmyk.toomanycolors.storage.StorageProvider;
 import wtf.cmyk.toomanycolors.utils.MessageUtils;
 
 import java.util.ArrayList;
@@ -14,10 +15,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 interface CommandInterface {
-    boolean onCommand(Player player, Command cmd, String commandLabel, String[] args);
+    boolean onCommand(CommandHandler handler, Player player, Command cmd, String commandLabel, String[] args);
 }
 
 public class CommandHandler implements TabExecutor {
+    protected final TMC plugin;
+    protected final StorageProvider provider;
+
+    public CommandHandler(TMC plugin, StorageProvider provider) {
+        this.plugin = plugin;
+        this.provider = provider;
+    }
     private static final HashMap<String, CommandInterface> subCommands = new HashMap<>();
 
     public void register(String name, CommandInterface command) {
@@ -36,14 +44,14 @@ public class CommandHandler implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player) {
             if (args.length == 0) {
-                getExecutor("help").onCommand((Player) sender, command, label, args);
+                getExecutor("help").onCommand(this, (Player) sender, command, label, args);
                 return true;
             }
 
             if (exists(args[0])) {
-                getExecutor(args[0].toLowerCase()).onCommand((Player) sender, command, label, args);
+                getExecutor(args[0].toLowerCase()).onCommand(this, (Player) sender, command, label, args);
             } else {
-                getExecutor("help").onCommand((Player) sender, command, label, args);
+                getExecutor("help").onCommand(this, (Player) sender, command, label, args);
                 return true;
             }
         } else {
@@ -68,7 +76,7 @@ public class CommandHandler implements TabExecutor {
             }
 
             if (args.length > 0 && exists(args[0])) {
-                HashMap<String, String> placeholderMap = TMC.getInstance().getProvider().getAllPlaceholders(((Player) sender).getUniqueId().toString());
+                HashMap<String, String> placeholderMap = provider.getAllPlaceholders(((Player) sender).getUniqueId().toString());
                 if (args[0].equalsIgnoreCase("del")) {
                     suggestions.addAll(placeholderMap.keySet());
                     return suggestions;

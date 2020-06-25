@@ -4,7 +4,7 @@ import wtf.cmyk.toomanycolors.storage.SQLiteProvider;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SQLiteProviderTest {
-    private final SQLiteProvider provider = new SQLiteProvider();
+    private final SQLiteProvider provider = new SQLiteProvider(null);
 
     @Test
     void getterSetterTest() {
