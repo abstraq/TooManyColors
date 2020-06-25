@@ -1,5 +1,5 @@
 name: 'TooManyColors'
-version: '1.0.2'
+version: '1.0.3'
 main: wtf.cmyk.toomanycolors.TMC
 api-version: '1.16'
 prefix: 'TMC'
