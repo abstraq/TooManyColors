@@ -5,6 +5,7 @@ import wtf.cmyk.toomanycolors.storage.StorageProvider;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 public class MessageUtils {
     public static String format(String message) {
@@ -15,10 +16,11 @@ public class MessageUtils {
         HashMap<String, String> placeholderMap = provider.getAllPlaceholders(player.toString());
         String m = message;
         for (String placeholder : placeholderMap.keySet()) {
-            m = m.replace(
-                    placeholder,
+            m = m.replaceAll(
+                    "(?<!\\\\)" + Pattern.quote(placeholder),
                     ChatColor.of(placeholderMap.get(placeholder)).toString()
             );
+            m = m.replace( "\\" + placeholder, placeholder);
         }
         return m;
     }
