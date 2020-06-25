@@ -3,6 +3,7 @@ package wtf.cmyk.toomanycolors;
 import com.tchristofferson.configupdater.ConfigUpdater;
 import org.bukkit.plugin.java.JavaPlugin;
 import wtf.cmyk.toomanycolors.commands.*;
+import wtf.cmyk.toomanycolors.listeners.ChatListener;
 import wtf.cmyk.toomanycolors.storage.SQLiteProvider;
 import wtf.cmyk.toomanycolors.storage.StorageProvider;
 
@@ -37,6 +38,7 @@ public final class TMC extends JavaPlugin {
         commandHandler.register("list", new ShortcutListCommand());
         getCommand("shortcut").setTabCompleter(commandHandler);
         getCommand("shortcut").setExecutor(commandHandler);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
         getLogger().info("Successfully enabled TooManyColors!");
     }
 
