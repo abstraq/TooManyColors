@@ -17,14 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <developers>
-        <developer>
-            <id>cmyk__</id>
-            <name>Josh Walker</name>
-            <url>https://www.cmyk.wtf</url>
-        </developer>
-    </developers>
-
     <licenses>
         <license>
             <name>GNU General Public License v3.0</name>
